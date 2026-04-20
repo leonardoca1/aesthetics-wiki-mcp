@@ -10,6 +10,7 @@ Backed by the MediaWiki API. No API key required.
 | --- | --- |
 | `search_aesthetic(query, limit=10)` | Full-text search across the wiki. |
 | `get_aesthetic(name, max_chars=6000)` | Fetch a page's cleaned content + main image URL. |
+| `get_aesthetic_images(name, limit=12)` | Gallery of image URLs from a page — perfect for moodboards. |
 | `list_related(name, limit=20)` | List aesthetics linked from a page (neighbors/related). |
 | `random_aesthetic(count=1)` | Pick random aesthetics for inspiration. |
 

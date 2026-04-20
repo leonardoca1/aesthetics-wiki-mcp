@@ -1,6 +1,6 @@
 [project]
 name = "aesthetics-wiki-mcp"
-version = "0.1.0"
+version = "0.2.0"
 description = "MCP server for the Aesthetics Wiki (aesthetics.fandom.com). Search, read, and discover aesthetics from your LLM."
 readme = "README.md"
 requires-python = ">=3.10"

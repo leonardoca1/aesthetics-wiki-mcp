@@ -257,6 +257,75 @@ async def list_related(name: str, limit: int = 20) -> dict[str, Any]:
     annotations={
         "readOnlyHint": True,
         "openWorldHint": True,
+        "idempotentHint": True,
+    }
+)
+async def get_aesthetic_images(name: str, limit: int = 12) -> dict[str, Any]:
+    """Get image URLs from an aesthetic's wiki page — perfect for moodboards.
+
+    Args:
+        name: Page title (e.g. "Cottagecore", "Dark Academia").
+        limit: Max number of images (1-50). Default 12.
+
+    Returns:
+        A dict with `source`, `url`, and `images`: list of {filename, url, description_url}.
+        Excludes tiny icons and SVG placeholders.
+    """
+    limit = max(1, min(int(limit), 50))
+    data = await _api_get({
+        "action": "query",
+        "titles": name,
+        "generator": "images",
+        "gimlimit": limit * 2,
+        "prop": "imageinfo",
+        "iiprop": "url|size|mime",
+        "redirects": 1,
+    })
+
+    query = data.get("query")
+    if not query:
+        return {
+            "source": name,
+            "images": [],
+            "error": f"No images found for '{name}'.",
+            "suggestion": f"Try search_aesthetic(query='{name}') to verify the title.",
+        }
+
+    pages = query.get("pages", [])
+    images: list[dict[str, Any]] = []
+    for p in pages:
+        info_list = p.get("imageinfo") or []
+        if not info_list:
+            continue
+        info = info_list[0]
+        mime = info.get("mime", "")
+        width = info.get("width", 0)
+        if mime.startswith("image/svg"):
+            continue
+        if width and width < 100:
+            continue
+        images.append({
+            "filename": p.get("title", "").replace("File:", ""),
+            "url": info.get("url"),
+            "description_url": info.get("descriptionurl"),
+            "width": width,
+            "height": info.get("height", 0),
+        })
+        if len(images) >= limit:
+            break
+
+    return {
+        "source": name,
+        "url": _page_url(name),
+        "count": len(images),
+        "images": images,
+    }
+
+
+@mcp.tool(
+    annotations={
+        "readOnlyHint": True,
+        "openWorldHint": True,
         "idempotentHint": False,
     }
 )
