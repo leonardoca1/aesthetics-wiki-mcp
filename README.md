@@ -1,8 +1,12 @@
 # Aesthetics Wiki MCP
 
+[![PyPI version](https://img.shields.io/pypi/v/aesthetics-wiki-mcp.svg)](https://pypi.org/project/aesthetics-wiki-mcp/)
+[![Python versions](https://img.shields.io/pypi/pyversions/aesthetics-wiki-mcp.svg)](https://pypi.org/project/aesthetics-wiki-mcp/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 An [MCP](https://modelcontextprotocol.io) server that lets LLMs search, read, and discover aesthetics from the [Aesthetics Wiki](https://aesthetics.fandom.com) (cottagecore, dark academia, y2k, goblincore, and thousands more).
 
-Backed by the MediaWiki API. No API key required.
+Backed by the MediaWiki API. No API key required. Zero setup: run it straight with `uvx`.
 
 ## Tools
 
@@ -16,26 +20,13 @@ Backed by the MediaWiki API. No API key required.
 
 All tools are read-only.
 
-## Install
+## Quick start
 
-Requires Python 3.10+.
+Requires Python 3.10+ and [`uv`](https://docs.astral.sh/uv/). Nothing to install manually — `uvx` fetches and runs it on demand.
 
-```bash
-# With uv (recommended)
-uv tool install aesthetics-wiki-mcp
+### Claude Code / Claude Desktop
 
-# Or with pipx
-pipx install aesthetics-wiki-mcp
-
-# Or from source
-git clone https://github.com/leonardoca1/aesthetics-wiki-mcp.git
-cd aesthetics-wiki-mcp
-uv sync
-```
-
-## Use with Claude Code
-
-Add to your MCP config (`~/.claude/settings.json` or project `.mcp.json`):
+Add this to your MCP config (`~/.claude/settings.json`, project `.mcp.json`, or `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
 
 ```json
 {
@@ -48,22 +39,18 @@ Add to your MCP config (`~/.claude/settings.json` or project `.mcp.json`):
 }
 ```
 
-Or, if installed from source:
+Restart your client and the 5 tools show up automatically.
 
-```json
-{
-  "mcpServers": {
-    "aesthetics-wiki": {
-      "command": "uv",
-      "args": ["--directory", "/path/to/aesthetics-wiki-mcp", "run", "aesthetics-wiki-mcp"]
-    }
-  }
-}
+### Other MCP clients
+
+Any client that speaks stdio works. Just run `uvx aesthetics-wiki-mcp` as the transport command.
+
+### Manual install
+
+```bash
+uv tool install aesthetics-wiki-mcp      # or: pipx install aesthetics-wiki-mcp
+aesthetics-wiki-mcp                       # starts the stdio server
 ```
-
-## Use with Claude Desktop
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) with the same shape as above.
 
 ## Example prompts
 
