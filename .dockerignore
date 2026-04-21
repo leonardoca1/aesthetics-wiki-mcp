@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+.uv/
+.git/
+.gitignore
+.github/
+.idea/
+.vscode/
+.DS_Store
+*.md
+!README.md
