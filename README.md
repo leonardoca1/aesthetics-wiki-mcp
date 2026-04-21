@@ -2,11 +2,21 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/aesthetics-wiki-mcp.svg)](https://pypi.org/project/aesthetics-wiki-mcp/)
 [![Python versions](https://img.shields.io/pypi/pyversions/aesthetics-wiki-mcp.svg)](https://pypi.org/project/aesthetics-wiki-mcp/)
+[![CI](https://github.com/leonardoca1/aesthetics-wiki-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/leonardoca1/aesthetics-wiki-mcp/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An [MCP](https://modelcontextprotocol.io) server that lets LLMs search, read, and discover aesthetics from the [Aesthetics Wiki](https://aesthetics.fandom.com) (cottagecore, dark academia, y2k, goblincore, and thousands more).
 
 Backed by the MediaWiki API. No API key required. Zero setup: run it straight with `uvx`.
+
+## Why
+
+The Aesthetics Wiki is one of the richest open catalogues of visual subcultures on the internet, but its content is locked behind a web UI. This server turns it into a structured tool so an LLM can actually *use* it:
+
+- **Mood-boards and visual research** — pull a gallery of real reference images for any aesthetic in one tool call.
+- **Brand and creative direction** — explore adjacent styles, find the right tag for a feeling, compare neighbors.
+- **Writing and worldbuilding** — get grounded vocabulary (fashion, music, motifs) instead of generic LLM vibes.
+- **Serendipity** — `random_aesthetic` is a cure for blank-page syndrome.
 
 ## Tools
 
@@ -19,6 +29,33 @@ Backed by the MediaWiki API. No API key required. Zero setup: run it straight wi
 | `random_aesthetic(count=1)` | Pick random aesthetics for inspiration. |
 
 All tools are read-only.
+
+## Example output
+
+```jsonc
+// get_aesthetic(name="Cottagecore", max_chars=600)
+{
+  "title": "Cottagecore",
+  "url": "https://aesthetics.fandom.com/wiki/Cottagecore",
+  "summary": "Cottagecore is an internet aesthetic that romanticizes a simple, self-sufficient life in harmony with nature, drawing inspiration from an idealized vision of Western rural and farm life. Gaining widespread popularity in the late 2010s and early 2020s on platforms like Tumblr and TikTok, it serves as a form of gentle escapism from the pressures of modern, capitalist society...",
+  "main_image": "https://static.wikia.nocookie.net/aesthetics/images/3/34/Cottagecore.jpg/revision/latest?cb=20230730224216"
+}
+```
+
+```jsonc
+// list_related(name="Cottagecore", limit=5)
+{
+  "source": "Cottagecore",
+  "count": 5,
+  "related": [
+    { "title": "Fairycore",   "url": "https://aesthetics.fandom.com/wiki/Fairycore" },
+    { "title": "Goblincore",  "url": "https://aesthetics.fandom.com/wiki/Goblincore" },
+    { "title": "Grandmacore", "url": "https://aesthetics.fandom.com/wiki/Grandmacore" },
+    { "title": "Farmcore",    "url": "https://aesthetics.fandom.com/wiki/Farmcore" },
+    { "title": "Naturecore",  "url": "https://aesthetics.fandom.com/wiki/Naturecore" }
+  ]
+}
+```
 
 ## Quick start
 
